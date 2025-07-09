@@ -5,10 +5,9 @@ import pickle
 from concurrent.futures import ThreadPoolExecutor
 from contextvars import ContextVar
 from functools import wraps
-from typing import Any, Literal, Sequence, cast
+from typing import Any, Sequence
 
 import torch
-from attr import asdict
 from tenacity import retry, retry_if_result, stop_after_attempt, wait_exponential
 
 from esm.sdk.api import (
@@ -30,11 +29,7 @@ from esm.sdk.api import (
 )
 from esm.sdk.base_forge_client import _BaseForgeInferenceClient
 from esm.utils.constants.api import MIMETYPE_ES_PICKLE
-from esm.utils.misc import (
-    deserialize_tensors,
-    maybe_list,
-    maybe_tensor,
-)
+from esm.utils.misc import deserialize_tensors, maybe_list, maybe_tensor
 from esm.utils.sampling import validate_sampling_config
 from esm.utils.types import FunctionAnnotation
 
@@ -147,12 +142,8 @@ class SequenceStructureForgeInferenceClient(_BaseForgeInferenceClient):
         )
 
     @staticmethod
-    def _process_fold_request(
-        sequence: str,
-        model_name: str | None,
-    ):
+    def _process_fold_request(sequence: str, model_name: str | None):
         request: dict[str, Any] = {"sequence": sequence}
-
 
         request["model"] = model_name
 
@@ -222,8 +213,7 @@ class SequenceStructureForgeInferenceClient(_BaseForgeInferenceClient):
         del potential_sequence_of_concern
 
         request = self._process_fold_request(
-            sequence,
-            model_name if model_name is not None else self.model,
+            sequence, model_name if model_name is not None else self.model
         )
 
         # Intentionally not catching errors, so our higher level logic such as automatic
@@ -252,8 +242,7 @@ class SequenceStructureForgeInferenceClient(_BaseForgeInferenceClient):
         del potential_sequence_of_concern
 
         request = self._process_fold_request(
-            sequence,
-            model_name if model_name is not None else self.model,
+            sequence, model_name if model_name is not None else self.model
         )
 
         # Intentionally not catching errors, so our higher level logic such as automatic

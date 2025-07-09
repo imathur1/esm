@@ -25,17 +25,9 @@ from esm.utils.constants import esm3 as esm3_c
 from esm.utils.misc import slice_python_object_as_numpy
 from esm.utils.structure.affine3d import Affine3D
 from esm.utils.structure.aligner import Aligner
-from esm.utils.structure.metrics import (
-    compute_gdt_ts,
-    compute_lddt_ca,
-)
-from esm.utils.structure.protein_chain import (
-    PathOrBuffer,
-    ProteinChain,
-)
-from esm.utils.structure.protein_structure import (
-    index_by_atom_name,
-)
+from esm.utils.structure.metrics import compute_gdt_ts, compute_lddt_ca
+from esm.utils.structure.protein_chain import PathOrBuffer, ProteinChain
+from esm.utils.structure.protein_structure import index_by_atom_name
 
 msgpack_numpy.patch()
 
