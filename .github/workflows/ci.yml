@@ -1,4 +1,4 @@
-name: ESM OSS CI
+name: CI
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint-and-type-check:
-    runs-on: [self-hosted, aws, gpu]
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
