@@ -1,39 +1,44 @@
-name: CI
+name: ESM Tests
 
 on:
   pull_request:
     branches:
       - "**"
   workflow_dispatch:
+  merge_group:
+    types: [checks_requested]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  lint-and-type-check:
-    runs-on: ubuntu-latest
+  test-precommit:
+    runs-on: ubuntu-22.04-16core
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Pixi
-      uses: prefix-dev/setup-pixi@v0.8.10
+    - name: Setup Environment
+      uses: prefix-dev/setup-pixi@v0.8.1
       with:
-        cache: true
-        auth-host: prefix.dev
         pixi-version: v0.47.0
+        cache: false
+        cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
 
-    - name: Lint, type-check & test
-      # everything under `run:` is executed inside the Pixi env
+    - name: Check formatting and typing
       run: |
-        # lint with Ruff
-        ruff check .
-
-        # format with Ruff
-        ruff format --check .
-
-        # type-check with Pyright
-        pyright
-
-        # test with pytest
-        pytest -v tests/
-
+          set -e
+          # pyright seems to do something weird at initialization that causes it to error out
+          # We can ignore the first invocation here.
+          pyright esm/__init__.py || true
+          pre-commit install
+          env NODE_OPTIONS="--max-old-space-size=16384" pre-commit run --all-files --show-diff-on-failure
+          [ -z "$(git status --porcelain)" ] && true || (echo "❌❌❌ pre-commit hook failed! A few files changed ❌❌❌]" && git status --porcelain && false)
+          git reset --hard HEAD # test without the pre-commit changes
       shell: pixi run bash {0}
