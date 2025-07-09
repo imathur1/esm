@@ -1,0 +1,39 @@
+name: ESM OSS CI
+
+on:
+  pull_request:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+jobs:
+  lint-and-type-check:
+    runs-on: [self-hosted, aws, gpu]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Pixi
+      uses: prefix-dev/setup-pixi@v0.8.10
+      with:
+        cache: true
+        auth-host: prefix.dev
+        pixi-version: v0.47.0
+
+    - name: Lint, type-check & test
+      # everything under `run:` is executed inside the Pixi env
+      run: |
+        # lint with Ruff
+        ruff check .
+
+        # format with Ruff
+        ruff format --check .
+
+        # type-check with Pyright
+        pyright
+
+        # test with pytest
+        pytest -v tests/
+
+      shell: pixi run bash {0}

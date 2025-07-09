@@ -67,3 +67,44 @@ esm = { path = ".", editable = true }
 [tool.pixi.tasks]
 build-wheel = "python -m pip wheel --no-deps -w dist ."
 upload-wheel = "python -m twine upload --repository pypi"
+
+[tool.ruff]
+extend-include = ["*.ipynb"]
+exclude = [
+	"evolutionaryscale/opensource/root/examples/tutorials/1_esmprotein.ipynb",
+]
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`), sort imports ('I')
+select = ["E4", "E7", "E9", "F", "I"]
+ignore = [
+    # allow variable == False (tensors should do this)
+    "E712",
+    # allow assigning of lambdas
+    "E731",
+    # Allow ambiguous variables, e.g. we use O for oxygen
+    "E741",
+    # Ignore errors from jaxtyping hints
+    # https://docs.kidger.site/jaxtyping/faq/#flake8-or-ruff-are-throwing-an-error
+    "F722",
+    # TODO: Fix the few offenders in a follow up PR
+    "E721",
+]
+
+[tool.ruff.lint.isort]
+split-on-trailing-comma = false
+known-third-party = ["wandb"]
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+
+[tool.isort]
+known_third_party = ["wandb"]
+
+[tool.pyright]
+root = ['.']
+useLibraryCodeForTypes = true
+reportPrivateImportUsage = false
+typeCheckingMode = "basic"
