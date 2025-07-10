@@ -20,6 +20,16 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
 ]
 
+# Pytest
+[tool.pytest.ini_options]
+# By default, skip gpu tests
+# Also, skip test_oss_client since it is run in its own separate docker container
+addopts = """
+	--cov-report term-missing:skip-covered
+	-n auto
+	--ignore=tests/oss_pytests/test_oss_client.py
+"""
+
 dependencies = [
   "torch>=2.2.0",
   "torchvision",
