@@ -30,25 +30,6 @@ addopts = """
 	--ignore=tests/oss_pytests/test_oss_client.py
 """
 
-dependencies = [
-  "torch>=2.2.0",
-  "torchvision",
-  "torchtext",
-  "transformers<4.48.2",
-  "ipython",
-  "einops",
-  "biotite>=1.0.0",
-  "msgpack-numpy",
-  "biopython",
-  "scikit-learn",
-  "brotli",
-  "attrs",
-  "pandas",
-  "cloudpathlib",
-  "tenacity",
-  "zstd"
-]
-
 [tool.setuptools]
 package-dir = {"" = "."}
 include-package-data = true
