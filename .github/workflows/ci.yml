@@ -61,7 +61,11 @@ jobs:
     - name: Run tests
       run: |
         set -o pipefail
-        pytest -v --junitxml=pytest.xml tests/ | tee pytest-coverage.txt
+        pytest \
+          -v \
+          --cov-report=term:pytest-coverage.txt \
+          --junitxml=pytest.xml \
+          tests/
       shell: pixi run bash -e {0}
 
     - name: Run Docker tests
