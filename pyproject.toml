@@ -26,7 +26,6 @@ classifiers = [
 # Also, skip test_oss_client since it is run in its own separate docker container
 addopts = """
   --cov=esm
-	--cov-report term-missing:skip-covered
 	-n auto
 	--ignore=tests/oss_pytests/test_oss_client.py
 """
