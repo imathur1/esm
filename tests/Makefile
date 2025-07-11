@@ -3,7 +3,6 @@
 DOCKER_TAG ?= dev
 DOCKER_IMAGE_OSS=oss_pytests:${DOCKER_TAG}
 URL ?= http://$(shell curl ifconfig.me):$(PORT)
-ESM3_FORGE_TOKEN=
 
 
 build-oss-ci:
