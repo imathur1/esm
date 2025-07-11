@@ -63,9 +63,11 @@ jobs:
         set -o pipefail
         pytest \
           -v \
-          --cov-report=term:pytest-coverage.txt \
+          --cov=esm \
+          --cov-report=term-missing \
           --junitxml=pytest.xml \
-          tests/
+          tests/ \
+        | tee pytest-coverage.txt
       shell: pixi run bash -e {0}
 
     - name: Run Docker tests
