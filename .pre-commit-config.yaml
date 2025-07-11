@@ -11,6 +11,10 @@ repos:
   - id: check-added-large-files
     exclude: evolutionaryscale/opensource/root/notebooks|pixi.lock
   - id: check-merge-conflict
+- repo: https://github.com/seddonym/import-linter
+  rev: v1.12.1
+  hooks:
+  - id: import-linter
 - repo: https://github.com/astral-sh/ruff-pre-commit
   rev: v0.7.3
   hooks:
