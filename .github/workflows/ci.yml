@@ -95,7 +95,7 @@ jobs:
         title: Coverage Report
         pytest-coverage-path: pytest-coverage.txt
         junitxml-path: pytest.xml
-        report-only-changed-files: true
+        report-only-changed-files: false
 
     - name: Pytest coverage GitHub summary
       if: ${{ github.event_name == 'pull_request' }}
