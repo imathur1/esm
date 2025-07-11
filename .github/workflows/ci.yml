@@ -64,10 +64,11 @@ jobs:
         pytest \
           -v \
           --cov=esm \
-          --cov-report=term-missing \
+          --cov-report=term \
+          --cov-report=xml:coverage.xml \
           --junitxml=pytest.xml \
           tests/ \
-        | tee pytest-coverage.txt
+          | tee pytest-coverage.txt
       shell: pixi run bash -e {0}
 
     - name: Run Docker tests
@@ -95,7 +96,7 @@ jobs:
         title: Coverage Report
         pytest-coverage-path: pytest-coverage.txt
         junitxml-path: pytest.xml
-        report-only-changed-files: false
+        report-only-changed-files: true
 
     - name: Pytest coverage GitHub summary
       if: ${{ github.event_name == 'pull_request' }}
